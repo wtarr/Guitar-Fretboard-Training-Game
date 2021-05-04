@@ -1,12 +1,20 @@
 class StringNotes {
   notes = ['E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#'];
   dots = [];
+  show = false;
+  startX;
+  startY;
+  offsetX;
 
   constructor() {
     this.dots = [];
   }
 
   setup(startNote, startX, startY, offsetX) {
+
+    this.startX = startX;
+    this.startY = startY;
+    this.offsetX = offsetX;
     
     var noteOffset = this.notes.indexOf(startNote);
 
@@ -22,10 +30,26 @@ class StringNotes {
     }
   }
 
+  showNotes(bool){
+    show = bool;
+  }
+
   draw(){
     for (var x = 0; x < this.dots.length; x++)
     {      
-      this.dots[x].draw();
+     
+       this.dots[x].showNote(show);
+       this.dots[x].draw();
     }
+
+    push()
+    fill(0, 0, 0);
+
+      textSize(20);
+
+      textAlign(CENTER, CENTER);
+
+      text("Find the note X", this.startX + (this.offsetX * 14), this.startY);
+    pop();
   }
 }

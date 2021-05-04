@@ -9,6 +9,7 @@ let width = 1600;
 let height = 400;
 
 let noteDots = [];
+let show = true;
 let strings = [];
 
 let currentNote = '';
@@ -21,8 +22,12 @@ function setup() {
   button = createButton('start microphone');
   button.position(width/2, height - 60);
   button.parent("sketch");
-  button.mousePressed(start); 
-  
+  button.mousePressed(startListening); 
+
+  button = createButton('Hide Notes / Start Game');
+  button.position(width/2, height - 30);
+  button.parent("sketch");
+  button.mousePressed(startGame);  
 
 
   //var c = new NoteDot('E', 30, 30, 30);
@@ -55,7 +60,7 @@ function setup() {
   }  
 }
 
-function start(){
+function startListening(){
   audioContext = getAudioContext();
   mic = new p5.AudioIn();
   mic.start(listening, listeningError);    
@@ -95,6 +100,10 @@ function getPitch() {
   });
 }
 
+function startGame() {
+  show = !show;
+}
+
 function draw() {
   // put drawing code here  
   background(200);
@@ -124,6 +133,7 @@ function draw() {
 
   // draw the notes
   for (var i = 0; i < noteDots.length; i++) {
+    noteDots[i].showNotes(show);
     noteDots[i].draw();
   }
 

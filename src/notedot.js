@@ -11,26 +11,25 @@ class NoteDot {
     this.x = x;
     this.y = y;
     this.radius = radius;
-    this.show = true;
+    //this.show = true;
   }
 
-  toggle() {
-    this.show = !this.show;
+  showNote(show) {
+    this.show = show;
   }
 
   draw() {
 
-    if (this.show) {
+    push();
 
+    fill(65, 181, 109);
 
-      push();
+    circle(this.x, this.y, this.radius);
 
-      fill(65, 181, 109);
+    pop();
 
-      circle(this.x, this.y, this.radius);
-
-      pop();
-
+    //console.log(show);
+    if (show) {
 
       push();
 
