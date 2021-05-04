@@ -15,7 +15,14 @@ let currentNote = '';
 
 function setup() {
   // put setup code here    
-  createCanvas(width, height);
+  var canvas = createCanvas(width, height);
+  canvas.parent("sketch");
+
+  button = createButton('start microphone');
+  button.position(width/2, height - 60);
+  button.parent("sketch");
+  button.mousePressed(start); 
+  
 
 
   //var c = new NoteDot('E', 30, 30, 30);
@@ -45,16 +52,23 @@ function setup() {
     strings.push(s);
     stringY -= 37;
     stringWeight -= 1;
-  }
+  }  
+}
 
+function start(){
   audioContext = getAudioContext();
   mic = new p5.AudioIn();
-  mic.start(listening);
-
+  mic.start(listening, listeningError);    
 }
 
 function listening() {
   pitch = ml5.pitchDetection(model_url, audioContext, mic.stream, modelLoaded)
+}
+
+function listeningError() {
+  var p = createP("Check if microphone is blocked");
+  p.position(width/2 -30, height - 40);
+  p.parent("sketch");
 }
 
 function modelLoaded() {
