@@ -42,14 +42,7 @@ class StringNotes {
        this.dots[x].draw();
     }
 
-    push()
-    fill(0, 0, 0);
-
-      textSize(20);
-
-      textAlign(CENTER, CENTER);
-
-      text("Find the note X", this.startX + (this.offsetX * 14), this.startY);
-    pop();
+    
+    
   }
 }

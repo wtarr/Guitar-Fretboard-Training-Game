@@ -5,7 +5,7 @@ const model_url =
 let pitch;
 let mic;
 
-let width = 1600;
+let width = 1300;
 let height = 400;
 
 let noteDots = [];
@@ -16,7 +16,7 @@ let currentNote = '';
 
 function setup() {
   // put setup code here    
-  var canvas = createCanvas(width, height);
+  var canvas = createCanvas(width, height); 
   canvas.parent("sketch");
 
   button = createButton('start microphone');
@@ -43,7 +43,7 @@ function setup() {
     var n = notes[s];
 
     var string = new StringNotes();
-    string.setup(n, 30, startY, 100);
+    string.setup(n, 30, startY, width * 0.074);
     noteDots.push(string);
 
     startY += offsetY;
@@ -53,11 +53,15 @@ function setup() {
   var stringY = 210;
   var stringWeight = 10;
   for (var i = 0; i < 6; i++) {
-    let s = new GuitarString(20, stringY, 1350, stringWeight);
+    let s = new GuitarString(20, stringY, width * 0.9, stringWeight);
     strings.push(s);
     stringY -= 37;
     stringWeight -= 1;
   }  
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
 
 function startListening(){
@@ -112,7 +116,7 @@ function draw() {
 
   // fret board
   fill(107, 68, 35);
-  rect(20, 20, 1320, 200);
+  rect(20, 20, width * 0.9, 200);
 
   // nut
   fill(255, 247, 230);
@@ -123,7 +127,7 @@ function draw() {
   var fretX = 120;
   for (var i = 0; i < 12; i++) {
     rect(fretX, 20, 20, 200);
-    fretX += 100;
+    fretX += width * 0.0735;
   }
 
   // draw the strings
