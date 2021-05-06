@@ -16,7 +16,7 @@ let currentNote = '';
 
 function setup() {
   // put setup code here    
-  var canvas = createCanvas(width, height); 
+  let canvas = createCanvas(width, height); 
   canvas.parent("sketch");
 
   button = createButton('start microphone');
@@ -30,19 +30,19 @@ function setup() {
   button.mousePressed(startGame);  
 
 
-  //var c = new NoteDot('E', 30, 30, 30);
+  //let c = new NoteDot('E', 30, 30, 30);
   //noteDots.push(c);
 
 
-  var scale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  let scale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
-  var notes = ['E', 'B', 'G', 'D', 'A', 'E'];
-  var offsetY = 37;
-  var startY = 25;
-  for (var s = 0; s < notes.length; s++) {
-    var n = notes[s];
+  let notes = ['E', 'B', 'G', 'D', 'A', 'E'];
+  let offsetY = 37;
+  let startY = 25;
+  for (let s = 0; s < notes.length; s++) {
+    let n = notes[s];
 
-    var string = new StringNotes();
+    let string = new StringNotes();
     string.setup(n, 30, startY, width * 0.074);
     noteDots.push(string);
 
@@ -50,9 +50,9 @@ function setup() {
   }
 
   // setup the strings
-  var stringY = 210;
-  var stringWeight = 10;
-  for (var i = 0; i < 6; i++) {
+  let stringY = 210;
+  let stringWeight = 10;
+  for (let i = 0; i < 6; i++) {
     let s = new GuitarString(20, stringY, width * 0.9, stringWeight);
     strings.push(s);
     stringY -= 37;
@@ -75,7 +75,7 @@ function listening() {
 }
 
 function listeningError() {
-  var p = createP("Check if microphone is blocked");
+  let p = createP("Check if microphone is blocked");
   p.position(width/2 -30, height - 40);
   p.parent("sketch");
 }
@@ -124,19 +124,19 @@ function draw() {
 
   // frets
   fill(201, 192, 187);
-  var fretX = 120;
-  for (var i = 0; i < 12; i++) {
+  let fretX = 120;
+  for (let i = 0; i < 12; i++) {
     rect(fretX, 20, 20, 200);
     fretX += width * 0.0735;
   }
 
   // draw the strings
-  for (var i = 0; i < strings.length; i++) {
+  for (let i = 0; i < strings.length; i++) {
     strings[i].draw();
   }
 
   // draw the notes
-  for (var i = 0; i < noteDots.length; i++) {
+  for (let i = 0; i < noteDots.length; i++) {
     noteDots[i].showNotes(show);
     noteDots[i].draw();
   }

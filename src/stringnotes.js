@@ -1,13 +1,11 @@
 class StringNotes {
-  notes = ['E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#'];
-  dots = [];
-  show = false;
-  startX;
-  startY;
-  offsetX;
-
   constructor() {
+    this.notes = ['E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#'];
     this.dots = [];
+    this.show = false;
+    this.startX;
+    this.startY;
+    this.offsetX;
   }
 
   setup(startNote, startX, startY, offsetX) {
@@ -16,17 +14,16 @@ class StringNotes {
     this.startY = startY;
     this.offsetX = offsetX;
     
-    var noteOffset = this.notes.indexOf(startNote);
+    let noteOffset = this.notes.indexOf(startNote);
 
-    var numberOfNotesPerString = this.notes.length + 1;
+    let numberOfNotesPerString = this.notes.length + 1;
 
-    for (var i = 0; i < numberOfNotesPerString; i++) {
-      var notePointer = (i + noteOffset) % this.notes.length;       
-      var note = new NoteDot(this.notes[notePointer],  startX, startY, 30);
+    for (let i = 0; i < numberOfNotesPerString; i++) {
+      let notePointer = (i + noteOffset) % this.notes.length;       
+      let note = new NoteDot(this.notes[notePointer],  startX, startY, 30);
       this.dots.push(note);
 
       startX += offsetX;
-
     }
   }
 
@@ -35,14 +32,11 @@ class StringNotes {
   }
 
   draw(){
-    for (var x = 0; x < this.dots.length; x++)
-    {      
-     
+    for (let x = 0; x < this.dots.length; x++)
+    {           
        this.dots[x].showNote(show);
        this.dots[x].draw();
-    }
-
-    
+    }   
     
   }
 }

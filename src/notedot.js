@@ -1,17 +1,10 @@
 class NoteDot {
-
-  note;
-  x;
-  y;
-  radius;
-  show;
-
   constructor(note, x, y, radius) {
     this.note = note;
     this.x = x;
     this.y = y;
     this.radius = radius;
-    //this.show = true;
+    this.show = true;
   }
 
   showNote(show) {

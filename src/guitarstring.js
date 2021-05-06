@@ -1,10 +1,4 @@
 class GuitarString {
-
-  x;
-  y;
-  length;
-  thickness;
-
   constructor(x, y, length, thickness) {
     this.x = x;
     this.y = y;
