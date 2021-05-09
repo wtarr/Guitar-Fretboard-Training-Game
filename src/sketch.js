@@ -6,41 +6,51 @@ let pitch;
 let mic;
 
 let width = 1300;
-let height = 400;
+let height = 500;
 
 let noteDots = [];
 let show = true;
+let gameReady = false;
+let gameStarted = false;
 let strings = [];
 
-let currentNote = '';
+let status = 'No model loaded press start microphone';
+let currentNote = { note: "B", octave: 7 };
+let noteToFind = "-";
+
+let scale = [];
 
 function setup() {
   // put setup code here    
-  let canvas = createCanvas(width, height); 
+  let canvas = createCanvas(width, height);
   canvas.parent("sketch");
 
+  let btnW = 250;
+  let padding = 30; // this is a deal breaker, its set in css
   button = createButton('start microphone');
-  button.position(width/2, height - 60);
+  button.position(width / 2 - btnW / 2 + padding, height - 60);
+  button.style(`width:${btnW}px`);
   button.parent("sketch");
-  button.mousePressed(startListening); 
+  button.mousePressed(startListening);
 
   button = createButton('Hide Notes / Start Game');
-  button.position(width/2, height - 30);
+  button.position(width / 2 - btnW / 2 + padding, height - 30);
+  button.style(`width:${btnW}px`);
   button.parent("sketch");
-  button.mousePressed(startGame);  
+  button.mousePressed(startGame);
 
 
   //let c = new NoteDot('E', 30, 30, 30);
   //noteDots.push(c);
 
 
-  let scale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  scale = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
-  let notes = ['E', 'B', 'G', 'D', 'A', 'E'];
+  let stdTuning = ['E', 'B', 'G', 'D', 'A', 'E'];
   let offsetY = 37;
   let startY = 25;
-  for (let s = 0; s < notes.length; s++) {
-    let n = notes[s];
+  for (let s = 0; s < stdTuning.length; s++) {
+    let n = stdTuning[s];
 
     let string = new StringNotes();
     string.setup(n, 30, startY, width * 0.074);
@@ -57,48 +67,40 @@ function setup() {
     strings.push(s);
     stringY -= 37;
     stringWeight -= 1;
-  }  
+  }
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
-function startListening(){
+function startListening() {
   audioContext = getAudioContext();
   mic = new p5.AudioIn();
-  mic.start(listening, listeningError);    
+  mic.start(listening, listeningError);
+  status = "Loading ...";
 }
 
 function listening() {
+  status = "Ready";
+  gameReady = true; 
+
   pitch = ml5.pitchDetection(model_url, audioContext, mic.stream, modelLoaded)
 }
 
 function listeningError() {
-  let p = createP("Check if microphone is blocked");
-  p.position(width/2 -30, height - 40);
-  p.parent("sketch");
+  status = "Check if microphone is blocked";
 }
 
 function modelLoaded() {
-  //console.log('model loaded');
-  select('#status').html('Model Loaded');
   getPitch();
 }
 
 function getPitch() {
   pitch.getPitch(function (err, frequency) {
-    if (frequency) {
+    if (frequency) {    
       const midiNum = freqToMidi(frequency);
-
-      //console.log(midiNum);
-
-      currentNote = MidiDictionary.midiToNote(midiNum); //scale[midiNum % 12];
-
-      //console.log(currentNote);
-
-      select('#currentNote').html(currentNote.note);
-      select('#currentOctave').html(currentNote.octave);
+      currentNote = MidiDictionary.midiToNote(midiNum);
     }
     getPitch();
   });
@@ -106,6 +108,9 @@ function getPitch() {
 
 function startGame() {
   show = !show;
+
+  noteToFind = random(scale);
+  gameStarted = true;
 }
 
 function draw() {
@@ -141,8 +146,48 @@ function draw() {
     noteDots[i].draw();
   }
 
+  // Model
+  push();
+  fill(0, 0, 0);
 
+  textSize(40);
 
+  textAlign(CENTER, CENTER);
+
+  text(status, width / 2, height - 170);
+  pop();
+
+  // draw current note
+  var sqW = 60;
+  var sqX = width / 2 - sqW / 2;
+  var sqY = height - 150;
+
+  square(sqX, sqY, sqW, 20);
+  push();
+  fill(0, 0, 0);
+
+  textSize(40);
+
+  textAlign(CENTER, CENTER);
+
+  text(currentNote.note, sqX += 25, sqY + sqW / 2);
+
+  pop();
+
+  if (gameStarted) {
+    updateGame();
+  } 
+
+}
+
+function updateGame() {
+
+  status = `Find the note ${noteToFind}`;
+
+  if (currentNote.note === noteToFind) {
+    noteToFind = random(scale);
+
+  }
 }
 
 

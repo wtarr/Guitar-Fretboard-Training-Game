@@ -1,0 +1,9 @@
+body {
+    padding: 30px;
+    margin: 0;
+  }
+
+  #sketch {      
+    margin: 0 auto;
+    position: relative;
+  }
