@@ -2,7 +2,7 @@
 
 ![Preview](./img/preview.jpg "preview")
 
-A simple application developed while playing with P5js and combining libraries.
+A sample application developed while playing with P5js and combining libraries.
 
 The example works by allowing a microphone to connect to the browser with permissions.
 
