@@ -98,7 +98,10 @@ function modelLoaded() {
 
 function getPitch() {
   pitch.getPitch(function (err, frequency) {
-    if (frequency) {    
+
+    
+    
+    if (frequency) {     
       const midiNum = freqToMidi(frequency);
       currentNote = MidiDictionary.midiToNote(midiNum);
     }
@@ -115,6 +118,13 @@ function startGame() {
 
 function draw() {
   // put drawing code here  
+
+  if (mic)
+  {
+    let volume = mic.getLevel();
+    console.log(volume); 
+  }
+
   background(200);
 
   translate(30, 20);
