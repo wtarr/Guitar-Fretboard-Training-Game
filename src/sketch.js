@@ -78,18 +78,18 @@ function startListening() {
   audioContext = getAudioContext();
   mic = new p5.AudioIn();
   mic.start(listening, listeningError);
-  status = "Loading ...";
+  this.status = "Loading ...";
 }
 
 function listening() {
-  status = "Ready";
+  this.status = "Ready";
   gameReady = true; 
 
   pitch = ml5.pitchDetection(model_url, audioContext, mic.stream, modelLoaded)
 }
 
 function listeningError() {
-  status = "Check if microphone is blocked";
+  this.status = "Check if microphone is blocked";
 }
 
 function modelLoaded() {
@@ -98,7 +98,10 @@ function modelLoaded() {
 
 function getPitch() {
   pitch.getPitch(function (err, frequency) {
-    if (frequency) {    
+
+    
+    
+    if (frequency) {     
       const midiNum = freqToMidi(frequency);
       currentNote = MidiDictionary.midiToNote(midiNum);
     }
@@ -115,6 +118,13 @@ function startGame() {
 
 function draw() {
   // put drawing code here  
+
+  if (mic)
+  {
+    let volume = mic.getLevel();
+    console.log(volume); 
+  }
+
   background(200);
 
   translate(30, 20);
@@ -154,7 +164,7 @@ function draw() {
 
   textAlign(CENTER, CENTER);
 
-  text(status, width / 2, height - 170);
+  text(this.status, width / 2, height - 170);
   pop();
 
   // draw current note
@@ -182,7 +192,7 @@ function draw() {
 
 function updateGame() {
 
-  status = `Find the note ${noteToFind}`;
+  this.status = `Find the note ${noteToFind}`;
 
   if (currentNote.note === noteToFind) {
     noteToFind = random(scale);
